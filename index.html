@@ -83,6 +83,9 @@
   .btn-blue { background:transparent; color:var(--accent2); border:1px solid var(--accent2); }
   .btn-blue:hover { background:rgba(0,132,255,.07); transform:translateY(-2px); }
   .hero-scroll { position:absolute; bottom:0rem; left:50%; transform:translateX(-50%); font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:2px; display:flex; flex-direction:column; align-items:center; gap:.5rem; z-index:1; }
+  @media(max-width:700px) {
+    .hero-scroll { display:none; }
+  }
   .scroll-line { width:1px; height:40px; background:linear-gradient(to bottom, var(--muted), transparent); animation: scrollpulse 2s ease-in-out infinite; }
   @keyframes scrollpulse { 0%,100%{opacity:.3} 50%{opacity:1} }
 
@@ -184,21 +187,59 @@
     .about-grid, .skills-wrap, .projects-grid, .contact-grid { grid-template-columns:1fr; }
     .hero h1 { font-size:3.2rem; }
   }
+  .hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span {
+  width: 24px;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: all .3s;
+}
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+@media(max-width:700px) {
+  .hamburger { display: flex; }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 58px;
+    left: 0; right: 0;
+    background: rgba(8,12,20,0.97);
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 2rem;
+    gap: 1.2rem;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { font-size: 14px; letter-spacing: 2px; }
+}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><span>// </span>BASIL_BABU<span>.dev</span></div>
-  <div class="nav-links">
-    <a href="#about">about</a>
-    <a href="#experience">exp</a>
-    <a href="#projects">projects</a>
-    <a href="#education">edu</a>
-    <a href="#skills">skills</a>
-    <a href="#contact">contact</a>
-  </div>
+  <div class="nav-links" id="navLinks">
+    <a href="#about" onclick="closeMenu()">about</a>
+    <a href="#experience" onclick="closeMenu()">exp</a>
+    <a href="#projects" onclick="closeMenu()">projects</a>
+    <a href="#education" onclick="closeMenu()">edu</a>
+    <a href="#skills" onclick="closeMenu()">skills</a>
+    <a href="#contact" onclick="closeMenu()">contact</a>
+</div>
+<div class="hamburger" id="hamburger" onclick="toggleMenu()">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
 </nav>
 
 <!-- HERO -->
@@ -594,6 +635,15 @@
   <div>DESIGNED & BUILT — <span>BASIL BABU</span> — 2026</div>
   <div style="margin-top:6px; opacity:.4;">// MSC COMPUTER SCIENCE & DATA SCIENCE · ESILV PARIS</div>
 </footer>
-
+<script>
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  }
+</script>
 </body>
 </html>
