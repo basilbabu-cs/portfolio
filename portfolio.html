@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basil Babu – Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c14;
+    --bg2: #0d1220;
+    --bg3: #121929;
+    --accent: #00f5c4;
+    --accent2: #0084ff;
+    --accent3: #a78bca;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --border: rgba(0,245,196,0.13);
+    --border2: rgba(0,132,255,0.18);
+    --mono: 'Share Tech Mono', monospace;
+    --sans: 'Rajdhani', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.025) 2px,rgba(0,0,0,0.025) 4px);
+    pointer-events:none; z-index:9999;
+  }
+
+  /* === NAV === */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:200;
+    background: rgba(8,12,20,0.93);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 0 3rem; height:58px;
+  }
+  .nav-logo { font-family:var(--mono); font-size:14px; color:var(--accent); letter-spacing:2px; }
+  .nav-logo span { color:var(--muted); }
+  .nav-links { display:flex; gap:2rem; }
+  .nav-links a { font-family:var(--mono); font-size:11px; color:var(--muted); text-decoration:none; letter-spacing:1.5px; transition:color .2s; }
+  .nav-links a:hover { color:var(--accent); }
+
+  /* === SECTIONS === */
+  section { padding:5.5rem 3rem; max-width:960px; margin:0 auto; }
+
+  /* === HERO === */
+  .hero-wrap { min-height:100vh; display:flex; align-items:center; padding-top:58px; position:relative; overflow:hidden; }
+  .hero-bg {
+    position:absolute; inset:0; z-index:0;
+    background-image: linear-gradient(rgba(0,245,196,0.025) 1px,transparent 1px), linear-gradient(90deg,rgba(0,245,196,0.025) 1px,transparent 1px);
+    background-size:64px 64px;
+    mask-image: radial-gradient(ellipse 70% 70% at 60% 40%, black 20%, transparent 80%);
+  }
+  .hero-glow {
+    position:absolute; width:600px; height:600px;
+    background: radial-gradient(circle, rgba(0,245,196,0.06) 0%, transparent 65%);
+    top:-100px; right:-100px; pointer-events:none;
+  }
+  .hero-section { position:relative; z-index:1; }
+  .hero-eyebrow { font-family:var(--mono); font-size:12px; color:var(--accent); letter-spacing:4px; margin-bottom:1.2rem; }
+  .hero h1 { font-size:clamp(3rem,9vw,6rem); font-weight:700; line-height:1; letter-spacing:-2px; margin-bottom:.6rem; }
+  .hero h1 em { font-style:normal; color:var(--accent); }
+  .hero-role { font-family:var(--mono); font-size:clamp(.8rem,1.8vw,1rem); color:var(--accent2); letter-spacing:2px; margin-bottom:1.8rem; }
+  .hero-desc { font-size:1.05rem; color:var(--muted); max-width:560px; line-height:1.9; margin-bottom:2.5rem; }
+  .hero-btns { display:flex; gap:1rem; flex-wrap:wrap; }
+  .btn { font-family:var(--mono); font-size:12px; padding:.7rem 1.6rem; border-radius:4px; text-decoration:none; letter-spacing:1.5px; transition:all .22s; cursor:pointer; display:inline-block; }
+  .btn-primary { background:var(--accent); color:#080c14; border:none; font-weight:700; }
+  .btn-primary:hover { background:#00c9a0; transform:translateY(-2px); }
+  .btn-outline { background:transparent; color:var(--accent); border:1px solid var(--accent); }
+  .btn-outline:hover { background:rgba(0,245,196,.07); transform:translateY(-2px); }
+  .btn-blue { background:transparent; color:var(--accent2); border:1px solid var(--accent2); }
+  .btn-blue:hover { background:rgba(0,132,255,.07); transform:translateY(-2px); }
+  .hero-scroll { position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:2px; display:flex; flex-direction:column; align-items:center; gap:.5rem; z-index:1; }
+  .scroll-line { width:1px; height:40px; background:linear-gradient(to bottom, var(--muted), transparent); animation: scrollpulse 2s ease-in-out infinite; }
+  @keyframes scrollpulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+  /* === SECTION HEADER === */
+  .sec-header { display:flex; align-items:center; gap:1rem; margin-bottom:3rem; }
+  .sec-num { font-family:var(--mono); font-size:12px; color:var(--accent); letter-spacing:3px; }
+  .sec-title { font-size:1.9rem; font-weight:700; letter-spacing:-.5px; }
+  .sec-line { flex:1; height:1px; background:linear-gradient(to right, var(--border), transparent); }
+
+  /* === ABOUT === */
+  .about-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:2.5rem; align-items:start; }
+  .about-text { color:var(--muted); line-height:1.95; font-size:1rem; }
+  .about-text p+p { margin-top:1rem; }
+  .about-stats { display:flex; flex-direction:column; gap:.9rem; }
+  .stat-card { background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:1.1rem 1.4rem; position:relative; overflow:hidden; transition: border-color .3s; }
+  .stat-card:hover { border-color:rgba(0,245,196,.35); }
+  .stat-card::before { content:''; position:absolute; top:0; left:0; width:3px; height:100%; background:var(--accent); }
+  .stat-label { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:2.5px; margin-bottom:3px; }
+  .stat-value { font-size:1.3rem; font-weight:700; }
+  .stat-value.green { color:var(--accent); }
+
+  /* === EXPERIENCE === */
+  .exp-list { display:flex; flex-direction:column; gap:1.5rem; }
+  .exp-card { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:1.8rem; position:relative; transition:all .25s; }
+  .exp-card:hover { border-color:rgba(0,245,196,.35); transform:translateX(5px); }
+  .exp-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:2px; background:linear-gradient(to right, var(--accent), transparent); border-radius:10px 10px 0 0; }
+  .exp-top { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:.5rem; margin-bottom:.8rem; }
+  .exp-role { font-size:1.15rem; font-weight:700; }
+  .exp-company { color:var(--accent); font-size:.95rem; margin-bottom:.2rem; }
+  .exp-loc { font-size:.85rem; color:var(--muted); }
+  .exp-period { font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:1px; white-space:nowrap; background:rgba(0,245,196,.06); border:1px solid var(--border); border-radius:4px; padding:.3rem .7rem; }
+  .exp-bullets { list-style:none; margin-top:.9rem; display:flex; flex-direction:column; gap:.45rem; }
+  .exp-bullets li { font-size:.95rem; color:var(--muted); padding-left:1.3rem; position:relative; }
+  .exp-bullets li::before { content:'▸'; position:absolute; left:0; color:var(--accent); font-size:10px; top:4px; }
+  .exp-bullets li strong { color:var(--text); }
+  .exp-projects-tag { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:1rem; }
+  .proj-flag { font-family:var(--mono); font-size:10px; padding:.25rem .6rem; border-radius:3px; background:rgba(0,132,255,.08); border:1px solid rgba(0,132,255,.25); color:var(--accent2); letter-spacing:1px; }
+
+  /* === PROJECTS === */
+  .projects-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.3rem; }
+  .proj-card { background:var(--bg2); border:1px solid var(--border2); border-radius:10px; padding:1.6rem; position:relative; overflow:hidden; transition:all .25s; }
+  .proj-card:hover { border-color:rgba(0,132,255,.45); transform:translateY(-4px); }
+  .proj-card::after { content:''; position:absolute; top:0; right:0; width:60px; height:60px; background:radial-gradient(circle at top right, rgba(0,132,255,.08), transparent 70%); }
+  .proj-icon { font-size:1.6rem; margin-bottom:.8rem; }
+  .proj-title { font-size:1.05rem; font-weight:700; margin-bottom:.5rem; }
+  .proj-desc { font-size:.9rem; color:var(--muted); line-height:1.75; margin-bottom:1rem; }
+  .proj-tags { display:flex; gap:.4rem; flex-wrap:wrap; margin-bottom:1rem; }
+  .proj-tag { font-family:var(--mono); font-size:10px; padding:.2rem .55rem; border-radius:3px; background:rgba(167,139,202,.08); border:1px solid rgba(167,139,202,.25); color:var(--accent3); letter-spacing:.5px; }
+  .proj-link { font-family:var(--mono); font-size:11px; color:var(--accent2); text-decoration:none; letter-spacing:1px; border-bottom:1px solid rgba(0,132,255,.3); transition:color .2s; }
+  .proj-link:hover { color:#4da6ff; }
+
+  /* === EDUCATION === */
+  .edu-list { display:flex; flex-direction:column; gap:1.2rem; }
+  .edu-card { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:1.5rem 1.7rem; display:flex; gap:1.4rem; align-items:flex-start; transition:border-color .3s; }
+  .edu-card:hover { border-color:rgba(0,132,255,.35); }
+  .edu-icon { width:46px; height:46px; border-radius:10px; background:rgba(0,132,255,.1); border:1px solid rgba(0,132,255,.3); display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0; }
+  .edu-degree { font-size:1rem; font-weight:700; margin-bottom:3px; }
+  .edu-school { color:var(--accent2); font-size:.9rem; margin-bottom:4px; }
+  .edu-period { font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:1px; }
+  .gpa-pill { display:inline-flex; align-items:center; gap:.6rem; background:rgba(0,245,196,.06); border:1px solid rgba(0,245,196,.22); border-radius:6px; padding:.5rem 1rem; margin-top:.7rem; }
+  .gpa-num { font-family:var(--mono); font-size:1.2rem; color:var(--accent); font-weight:700; }
+  .gpa-sub { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:1.5px; }
+
+  /* === SKILLS === */
+  .skills-wrap { display:grid; grid-template-columns:1fr 1fr; gap:2rem; }
+  .skill-group-label { font-family:var(--mono); font-size:10px; color:var(--accent); letter-spacing:3px; margin-bottom:.75rem; }
+  .tags { display:flex; flex-wrap:wrap; gap:.55rem; }
+  .tag { font-family:var(--mono); font-size:11px; padding:.3rem .8rem; border-radius:4px; border:1px solid; letter-spacing:.8px; transition:all .2s; cursor:default; }
+  .tg { border-color:rgba(0,245,196,.28); color:var(--accent); background:rgba(0,245,196,.04); }
+  .tg:hover { background:rgba(0,245,196,.1); border-color:var(--accent); transform:translateY(-2px); }
+  .tb { border-color:rgba(0,132,255,.28); color:var(--accent2); background:rgba(0,132,255,.04); }
+  .tb:hover { background:rgba(0,132,255,.1); border-color:var(--accent2); transform:translateY(-2px); }
+  .tp { border-color:rgba(167,139,202,.28); color:var(--accent3); background:rgba(167,139,202,.04); }
+  .tp:hover { background:rgba(167,139,202,.1); border-color:var(--accent3); transform:translateY(-2px); }
+  .to { border-color:rgba(255,180,50,.25); color:#f5b942; background:rgba(255,180,50,.04); }
+  .to:hover { background:rgba(255,180,50,.1); border-color:#f5b942; transform:translateY(-2px); }
+
+  /* === CONTACT === */
+  .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  .contact-item { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.4rem; display:flex; align-items:center; gap:1rem; transition:all .22s; text-decoration:none; color:var(--text); }
+  .contact-item:hover { border-color:rgba(0,245,196,.4); transform:translateY(-3px); }
+  .contact-icon { font-size:1.3rem; width:34px; text-align:center; flex-shrink:0; }
+  .contact-label { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:2px; margin-bottom:3px; }
+  .contact-val { font-size:.95rem; color:var(--accent); word-break:break-all; }
+
+  /* === FOOTER === */
+  footer { border-top:1px solid var(--border); text-align:center; padding:2.5rem; font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:1.5px; }
+  footer span { color:var(--accent); }
+
+  /* === CURSOR === */
+  .cursor { display:inline-block; width:3px; height:.9em; background:var(--accent); margin-left:3px; animation:blink 1s step-end infinite; vertical-align:middle; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* === RESPONSIVE === */
+  @media(max-width:700px) {
+    nav { padding:0 1.2rem; }
+    section { padding:4rem 1.2rem; }
+    .about-grid, .skills-wrap, .projects-grid, .contact-grid { grid-template-columns:1fr; }
+    .hero h1 { font-size:3.2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo"><span>// </span>BASIL_BABU<span>.dev</span></div>
+  <div class="nav-links">
+    <a href="#about">about</a>
+    <a href="#experience">exp</a>
+    <a href="#projects">projects</a>
+    <a href="#education">edu</a>
+    <a href="#skills">skills</a>
+    <a href="#contact">contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero-wrap">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+  <section class="hero hero-section">
+    <div class="hero-eyebrow">// HELLO WORLD &nbsp;·&nbsp; AVAILABLE FOR INTERNSHIP</div>
+    <h1>BASIL<br><em>BABU</em></h1>
+    <div class="hero-role">FULL_STACK_DEV &nbsp;·&nbsp; DATA_ENGINEER &nbsp;·&nbsp; ML_ENTHUSIAST<span class="cursor"></span></div>
+    <p class="hero-desc">
+      PHP Full Stack Developer & aspiring Data Analyst with 3+ years of professional experience.
+      Currently pursuing an MSc in Computer Science & Data Science at ESILV, Paris.
+      Python · PHP · SQL · TensorFlow · Power BI.
+    </p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-primary">HIRE ME</a>
+      <a href="#projects" class="btn btn-blue">VIEW PROJECTS</a>
+      <a href="#experience" class="btn btn-outline">EXPERIENCE</a>
+    </div>
+  </section>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-header">
+    <span class="sec-num">// 01</span>
+    <h2 class="sec-title">About Me</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a PHP Full Stack Developer and Junior Data Analyst based in Aubervilliers, France, with nearly 3 years of hands-on experience building and maintaining enterprise-grade platforms for international infrastructure projects.</p>
+      <p>Currently completing my MSc in Computer Science & Data Science at ESILV – École Supérieure d'Ingénieurs Léonard de Vinci. I combine strong backend engineering skills with a growing expertise in data analysis, machine learning, and deep learning.</p>
+      <p>I thrive in Agile environments, communicate clearly across teams, and take pride in writing clean, maintainable, and well-tested code. I'm actively seeking an internship where I can apply these skills and keep growing.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-label">EXPERIENCE</div>
+        <div class="stat-value">3+ Years Professional</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">LOCATION</div>
+        <div class="stat-value">Aubervilliers, France 🇫🇷</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">LANGUAGES</div>
+        <div class="stat-value">English · French (Developing)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">CERTIFICATION</div>
+        <div class="stat-value">Data Analysis with R · Google</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">STATUS</div>
+        <div class="stat-value green">⬤ &nbsp;Open to Opportunities</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec-header">
+    <span class="sec-num">// 02</span>
+    <h2 class="sec-title">Experience</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="exp-list">
+
+    <div class="exp-card">
+      <div class="exp-top">
+        <div>
+          <div class="exp-role">Back End PHP Developer & Support Engineer</div>
+          <div class="exp-company">Maxwell GeoSystems India Pvt Ltd</div>
+          <div class="exp-loc">Kochi, Kerala, India</div>
+        </div>
+        <div class="exp-period">DEC 2021 — SEP 2024</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Developed and maintained backend modules for <strong>Mission OS</strong>, a large-scale enterprise geotechnical platform, using <strong>PHP 5.6 (OOP)</strong> and <strong>MySQL</strong> serving global infrastructure monitoring projects.</li>
+        <li>Optimised SQL queries and data workflows, achieving a <strong>30% improvement in data retrieval speed</strong> across the platform.</li>
+        <li>Managed and queried large structured databases using MySQL and SQL to support <strong>real-time monitoring</strong> of international infrastructure projects.</li>
+        <li>Investigated and resolved production incidents through <strong>root cause analysis</strong>, maintaining consistent system availability for international clients.</li>
+        <li>Wrote and maintained <strong>unit tests</strong> and contributed to QA testing cycles across production releases.</li>
+        <li>Supported frontend functionality using HTML, CSS, JavaScript, AJAX, and jQuery to deliver user-friendly interfaces.</li>
+        <li>Maintained technical <strong>documentation</strong> of data processes, system behaviour, and reporting standards.</li>
+      </ul>
+      <div class="exp-projects-tag">
+        <span class="proj-flag">KVMRT2 — Malaysia</span>
+        <span class="proj-flag">DTSS2 — Singapore</span>
+        <span class="proj-flag">Thames Tideway — UK</span>
+      </div>
+    </div>
+
+    <div class="exp-card">
+      <div class="exp-top">
+        <div>
+          <div class="exp-role">Software Programmer</div>
+          <div class="exp-company">iROHUB Infotech</div>
+          <div class="exp-loc">Ernakulam, Kerala, India</div>
+        </div>
+        <div class="exp-period">JUN 2021 — DEC 2021</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Developed and maintained e-commerce websites using modern web technologies and best practices.</li>
+        <li>Mentored students on website development from design to deployment, enabling them to build real-world projects.</li>
+        <li>Collaborated on responsive, user-friendly interfaces tailored to client specifications.</li>
+        <li>Troubleshot, debugged, and optimised website performance for improved user experience.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-header">
+    <span class="sec-num">// 03</span>
+    <h2 class="sec-title">Projects</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <div class="proj-card">
+      <div class="proj-icon">🧬</div>
+      <div class="proj-title">Microorganism Image Classification (CNN)</div>
+      <p class="proj-desc">Built a deep learning model using Convolutional Neural Networks to classify microorganism images. Applied image preprocessing, augmentation, and model training pipelines.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">Python</span>
+        <span class="proj-tag">TensorFlow</span>
+        <span class="proj-tag">Keras</span>
+        <span class="proj-tag">CNN</span>
+        <span class="proj-tag">Deep Learning</span>
+      </div>
+      <a class="proj-link" href="https://github.com/basilbabu-cs/Deep-Learning-With-CNN" target="_blank">→ VIEW ON GITHUB</a>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-icon">🏍️</div>
+      <div class="proj-title">EDA & Regression — Motorcycle Specs (1970–2022)</div>
+      <p class="proj-desc">Performed exploratory data analysis and regression modelling on a dataset of motorcycle technical specifications spanning 5 decades. Extracted insights and built predictive models.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">Python</span>
+        <span class="proj-tag">Pandas</span>
+        <span class="proj-tag">Seaborn</span>
+        <span class="proj-tag">Scikit-learn</span>
+        <span class="proj-tag">Regression</span>
+      </div>
+      <a class="proj-link" href="https://github.com/basilbabu-cs/EDA-Regression" target="_blank">→ VIEW ON GITHUB</a>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-icon">⚙️</div>
+      <div class="proj-title">Mission OS — Enterprise Geotechnical Platform</div>
+      <p class="proj-desc">Contributed 3 years of backend development to a large-scale geotechnical project management platform serving international civil engineering projects in Malaysia, Singapore, and the UK.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">PHP 5.6</span>
+        <span class="proj-tag">MySQL</span>
+        <span class="proj-tag">jQuery</span>
+        <span class="proj-tag">AJAX</span>
+        <span class="proj-tag">OOP</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-icon">📊</div>
+      <div class="proj-title">Data Analysis Coursework — ESILV</div>
+      <p class="proj-desc">Academic projects covering database engineering, advanced programming, security, and a capstone project. Achieved GPA of 13.98/20 (Mention Bien) across 60 ECTS.</p>
+      <div class="proj-tags">
+        <span class="proj-tag">Python</span>
+        <span class="proj-tag">SQL</span>
+        <span class="proj-tag">R</span>
+        <span class="proj-tag">Power BI</span>
+        <span class="proj-tag">Data Science</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="sec-header">
+    <span class="sec-num">// 04</span>
+    <h2 class="sec-title">Education</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="edu-list">
+
+    <div class="edu-card">
+      <div class="edu-icon">🎓</div>
+      <div>
+        <div class="edu-degree">MSc Computer Science & Data Science (Master 2)</div>
+        <div class="edu-school">ESILV – École Supérieure d'Ingénieurs Léonard de Vinci</div>
+        <div class="edu-period">OCT 2024 — FEB 2026 &nbsp;·&nbsp; Paris, France</div>
+        <div class="gpa-pill">
+          <div class="gpa-num">13.98 / 20</div>
+          <div>
+            <div class="gpa-sub">MENTION BIEN</div>
+            <div class="gpa-sub">~3.3 GPA (US)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-icon">💻</div>
+      <div>
+        <div class="edu-degree">Master of Computer Applications (MCA)</div>
+        <div class="edu-school">Union Christian College Aluva</div>
+        <div class="edu-period">OCT 2019 — FEB 2022 &nbsp;·&nbsp; Kerala, India</div>
+      </div>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-icon">📘</div>
+      <div>
+        <div class="edu-degree">Bachelor's Degree — Computer Software Technology</div>
+        <div class="edu-school">Mar Gregorios Abdul Jaleel Arts and Science College, North Paravur</div>
+        <div class="edu-period">JUN 2016 — MAR 2019 &nbsp;·&nbsp; Kerala, India</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-header">
+    <span class="sec-num">// 05</span>
+    <h2 class="sec-title">Skills & Tech Stack</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="skills-wrap">
+    <div>
+      <div class="skill-group-label">PROGRAMMING LANGUAGES</div>
+      <div class="tags">
+        <span class="tag tg">PHP 5.6 / 8</span>
+        <span class="tag tg">Python</span>
+        <span class="tag tg">R</span>
+        <span class="tag tg">Java</span>
+        <span class="tag tg">SQL</span>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group-label">WEB DEVELOPMENT</div>
+      <div class="tags">
+        <span class="tag tb">HTML / CSS</span>
+        <span class="tag tb">JavaScript</span>
+        <span class="tag tb">jQuery</span>
+        <span class="tag tb">AJAX</span>
+        <span class="tag tb">REST APIs</span>
+        <span class="tag tb">Laravel</span>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group-label">DATA & ANALYTICS</div>
+      <div class="tags">
+        <span class="tag tp">Pandas</span>
+        <span class="tag tp">NumPy</span>
+        <span class="tag tp">Matplotlib</span>
+        <span class="tag tp">Seaborn</span>
+        <span class="tag tp">Power BI</span>
+        <span class="tag tp">Scikit-learn</span>
+        <span class="tag tp">Jupyter</span>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group-label">DEEP LEARNING</div>
+      <div class="tags">
+        <span class="tag to">TensorFlow</span>
+        <span class="tag to">PyTorch</span>
+        <span class="tag to">Keras</span>
+        <span class="tag to">CNN</span>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group-label">DATABASES</div>
+      <div class="tags">
+        <span class="tag tg">MySQL</span>
+        <span class="tag tg">PostgreSQL</span>
+        <span class="tag tg">SQL (3 yrs)</span>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group-label">TOOLS & WORKFLOW</div>
+      <div class="tags">
+        <span class="tag tb">Git / GitHub</span>
+        <span class="tag tb">Bitbucket</span>
+        <span class="tag tb">Docker</span>
+        <span class="tag tb">Jira</span>
+        <span class="tag tb">Linux CLI</span>
+        <span class="tag tb">Agile / Scrum</span>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group-label">DATA CONCEPTS</div>
+      <div class="tags">
+        <span class="tag tp">Data Cleaning</span>
+        <span class="tag tp">EDA</span>
+        <span class="tag tp">Regression Modeling</span>
+        <span class="tag tp">Basic ETL</span>
+        <span class="tag tp">Unit Testing</span>
+      </div>
+    </div>
+    <div>
+      <div class="skill-group-label">SOFT SKILLS</div>
+      <div class="tags">
+        <span class="tag tg">Analytical Thinking</span>
+        <span class="tag tg">Problem Solving</span>
+        <span class="tag tg">Team Collaboration</span>
+        <span class="tag tg">Autonomous</span>
+        <span class="tag tg">Proactive</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-header">
+    <span class="sec-num">// 06</span>
+    <h2 class="sec-title">Contact</h2>
+    <div class="sec-line"></div>
+  </div>
+  <p style="color:var(--muted); margin-bottom:2rem; font-size:1rem; max-width:500px;">
+    Open to internships, full-time opportunities, and exciting collaborations.
+    Let's build something great together.
+  </p>
+  <div class="contact-grid">
+    <a class="contact-item" href="mailto:basilbabu1410@gmail.com">
+      <div class="contact-icon">✉</div>
+      <div>
+        <div class="contact-label">EMAIL</div>
+        <div class="contact-val">basilbabu1410@gmail.com</div>
+      </div>
+    </a>
+    <a class="contact-item" href="https://www.linkedin.com/in/babu-basil" target="_blank">
+      <div class="contact-icon">🔗</div>
+      <div>
+        <div class="contact-label">LINKEDIN</div>
+        <div class="contact-val">linkedin.com/in/babu-basil</div>
+      </div>
+    </a>
+    <a class="contact-item" href="https://github.com/basilbabu-cs" target="_blank">
+      <div class="contact-icon">⌥</div>
+      <div>
+        <div class="contact-label">GITHUB</div>
+        <div class="contact-val">github.com/basilbabu-cs</div>
+      </div>
+    </a>
+    <a class="contact-item" href="tel:+33759445730">
+      <div class="contact-icon">📞</div>
+      <div>
+        <div class="contact-label">PHONE</div>
+        <div class="contact-val">+33 759 445 730</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div>DESIGNED & BUILT — <span>BASIL BABU</span> — 2025</div>
+  <div style="margin-top:6px; opacity:.4;">// MSC COMPUTER SCIENCE & DATA SCIENCE · ESILV PARIS</div>
+</footer>
+
+</body>
+</html>
