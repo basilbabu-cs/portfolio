@@ -225,6 +225,26 @@
   .nav-links.open { display: flex; }
   .nav-links a { font-size: 14px; letter-spacing: 2px; }
 }
+  /* basil */
+  .btn-cv {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: .4rem 1rem;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: all .2s;
+  white-space: nowrap;
+}
+.btn-cv:hover { background: rgba(0,245,196,.1); transform:translateY(-2px); }
+
+@media(max-width:700px) {
+  .btn-cv { display:none; }
+}
+  /* basil */
 </style>
 </head>
 <body>
@@ -240,6 +260,9 @@
     <a href="#contact" onclick="closeMenu()">contact</a>
 </div>
 <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+  <!-- basil -->
+  <a href="Basil_Babu_Developer_CV.pdf" download class="btn-cv">⬇ DOWNLOAD CV</a>
+  <!-- basil -->
   <span></span>
   <span></span>
   <span></span>
